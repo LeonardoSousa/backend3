@@ -1,0 +1,27 @@
+# @name  login
+POST {{base_url}}/auth
+
+{
+    "email": "leonardo@bitmaxtelecom.com.br",
+    "password": "123456"
+}
+
+###
+GET {{base_url}}/remessas/download/1
+Authorization: Bearer {{login.response.body.token}} 
+
+###
+POST {{base_url}}/retornos/upload
+Authorization: Bearer {{login.response.body.token}} 
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Type: text/plain
+Content-Disposition: form-data; name="file"; filename="COBST_SL5B_02_230223P_MOV9.TXT"
+
+< ./COBST_SL5B_02_230223P_MOV2.TXT
+--boundary--
+
+###
+POST {{base_url}}/retornos/7/reprocessar
+Authorization: Bearer {{login.response.body.token}} 
